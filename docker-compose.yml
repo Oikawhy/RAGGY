@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: ai-consultant-postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: ai_consultant
+      POSTGRES_USER: consultant
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-consultant_dev_pw}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U consultant -d ai_consultant"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: "4"
+
+  redis:
+    image: redis:7-alpine
+    container_name: ai-consultant-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+  app:
+    build: .
+    container_name: ai-consultant-app
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  pgdata:

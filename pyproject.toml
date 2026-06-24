@@ -1,0 +1,29 @@
+[project]
+name = "ai-consultant-rag"
+version = "0.1.0"
+description = "Production-oriented RAG API for the AI Consultant assignment"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.104.0,<0.105.0",
+    "httpx>=0.25.0,<0.26.0",
+    "anyio>=3.7.0,<4.0.0",
+    "openai>=1.90.0",
+    "pydantic>=2.8.0",
+    "pydantic-settings>=2.4.0",
+    "pytest>=8.3.0",
+    "starlette>=0.27.0,<0.28.0",
+    "uvicorn[standard]>=0.30.0",
+    "asyncpg>=0.30.0,<0.31.0",
+    "redis>=5.2.0,<6.0.0",
+    "tenacity>=9.0.0,<10.0.0",
+    "sentence-transformers>=3.3.0,<4.0.0",
+    "requests>=2.32.0,<3.0.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = [
+    "integration: requires Docker or live external service dependencies",
+]
+

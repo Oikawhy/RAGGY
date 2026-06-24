@@ -1,6 +1,6 @@
 ## Архитектурные решения (Architectural Decisions)
 
-- Почему pgvector? для тестовой задачи требуется transactional data model (sources - sections - chunks с metadata, versioning, deduplication) и hybrid retrieval (vector + lexical). PostgreSQL закрывает обе задачи в одной системе. Vector search — один шаг из шести в pipeline; Qdrant/Pinecone решают только его, а metadata, FTS, versioning и deduplication всё равно требуют реляционную БД. Два хранилища удваивают инфраструктурную сложность ( избыточны для тестов) без пропорциональной выгоды.
+- Почему pgvector? для тестовой задачи требуется транзакционная модель (sources - sections - chunks с metadata, versioning, deduplication) и гибридный поиск (vector + lexical). PostgreSQL закрывает обе задачи в одной системе. Векторный поиск — один шаг из шести в pipeline; Qdrant/Pinecone решают только его, а metadata, FTS, versioning и deduplication всё равно требуют реляционную БД. Два хранилища удваивают инфраструктурную сложность ( избыточны для тестов) без пропорциональной выгоды.
 - почему  in-memory BM25? та же причина по сути,  так как это второй этап после FTS, при переходе необходимо выносить в отдельный сервис.  я бы выбрал OpenSearch для нормального BM25
 - почему BGE-M3? Хорошая мультиязычная модель (по сравнению с е5 субъективно украинский лучше понимает), локалочка, точно также нужно выносить в отдельный сервис  чтобы воркеры по апишке дёргали
 - reranker я бы взял тоже от BGE  (сейчас реализован простой лексический)

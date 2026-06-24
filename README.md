@@ -22,7 +22,7 @@
 
 
 ### 1. Подготовка окружения
-Создайте файл настроек из шаблона:
+файл настроек из шаблона:
 ```bash
 cp .env.example .env
 ```
@@ -32,7 +32,7 @@ EMBEDDING_BACKEND=local_bge_m3
 ```
 
 ### 2. Установка зависимостей
-Убедитесь, что у вас установлен Python 3.12. Выполните команды:
+Убедитесь, что у вас установлен Python 3.12. 
 ```bash
 python3.12 -m venv venv
 source venv/bin/activate
@@ -40,13 +40,12 @@ pip install -r requirements.txt
 ```
 
 ### 3. Запуск баз данных
-Запустите PostgreSQL и Redis через Docker Compose:
+Запуск PostgreSQL и Redis через Docker Compose:
 ```bash
 docker compose up -d postgres redis
 ```
 
 ### 4. Импорт базы знаний (Индексация)
-Загрузите и обработайте текст базы знаний:
 ```bash
 python scripts/ingest_kb.py \
   --source data/knowledge_base.md \
@@ -57,7 +56,7 @@ python scripts/ingest_kb.py \
 ```
 
 ### 5. Запуск веб-сервиса
-Запустите сервер разработки:
+Запуск сервера разработки:
 ```bash
 python -m uvicorn app.main:create_production_app --factory --reload --port 8765
 ```
@@ -71,7 +70,7 @@ docker compose up --build
 
 ## URL endpoint
 
-Для получения ответов используйте следующий метод: `POST /ask`
+Для получения ответов используется метод: `POST /ask`
 
 Запросы отправляются по адресу `http://localhost:8765/ask` (или порт `8000`, если запуск через Docker Compose).
 

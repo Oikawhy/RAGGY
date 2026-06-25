@@ -55,7 +55,7 @@ Python LangGraph AI Layer
 
 Storage / Infra
   -> PostgreSQL source of truth
-  -> Vector index service or pgvector cluster
+  -> Vector index service Qdrant/pinecone
   -> OpenSearch / Elasticsearch for BM25
   -> Redis for cache, locks, rate limits, hot queries
   -> Object storage for original documents
